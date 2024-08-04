@@ -46,3 +46,10 @@ The snake game logic is running in the ESP8266 and all of the pixels will be upl
 
 This game will work with both of keyborad keys (arrow keys) and push-button keys.
 
+<h1 align="center">
+	<picture>
+		<source media="(prefers-color-scheme: dark)" srcset="./assets/flowchart_dark.svg">
+		<img alt="Diagram" src="./assets/flowchart_light.svg">
+	</picture>
+</h1>
+
