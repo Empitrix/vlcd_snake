@@ -1,8 +1,8 @@
-# OLED SNAKE
-Snake game written in ESP8266 with OLED display
+# VLCD SNAKE
+Snake game written in ESP8266 with OLED display and communicate with [VLCD](https://github.com/empitrix/vlcd) via [VLCD client](https://github.com/empitrix/vlcd_client).
 
 
-## Game function
+## Game Behavior
 The snake will move faster as it gains more points
 
 
@@ -22,7 +22,7 @@ hardware requirements:
 
 to build this project:
 ```bash
-git clone "https://github.com/Empitrix/oled-snake" && cd ./oled-snake
+git clone "https://github.com/Empitrix/vlcd_snake" && cd ./vlcd_snake
 make menuconfig  # to setup port and flash size
 ```
 after setting up port and flash size in `menuconfig` compile it using:
@@ -39,4 +39,10 @@ All of the keys are pull-down
 - `D7` for (DOWN) key
 - `D8` for (RIGHT) key
 - `D5` for (LEFT) key
+
+
+## How Does This Work?
+The snake game logic is running in the ESP8266 and all of the pixels will be uploaded to the VLCD and VLCD renders them.
+
+This game will work with both of keyborad keys (arrow keys) and push-button keys.
 
