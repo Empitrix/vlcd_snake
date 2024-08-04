@@ -41,20 +41,21 @@ struct BLOCK get_point(struct BLOCK blocks[], int dw, int dh, int step, int ln){
 
 
 
-void game_over_fn(ssd1306_t dev, const font_info_t *font, uint8_t *fb, struct BLOCK blocks[MAX_BLOCK], struct GMAE_RULES *rules){
+void game_over_fn(ssd1306_t dev, const font_info_t *font, struct BLOCK blocks[MAX_BLOCK], struct GMAE_RULES *rules, struct VLCDC *vlcdc, struct VC_FRAME_COMM *comm){
 
 	char msgp[100];
 
 	sprintf(msgp, "GAME OVER   %d", rules->gpoints);
-	ssd1306_draw_string(&dev, fb, font, 10, 10, msgp, OLED_COLOR_WHITE, OLED_COLOR_BLACK);
-	ssd1306_draw_string(&dev, fb, font, 0, 35, "PRESS <DOWN> TO PLAY", OLED_COLOR_WHITE, OLED_COLOR_BLACK);
-	ssd1306_draw_string(&dev, fb, font, 0, 45, "AGAIN.", OLED_COLOR_WHITE, OLED_COLOR_BLACK);
-	ssd1306_load_frame_buffer(&dev, fb);
+	ssd1306_draw_string(&dev, comm->buffer, font, 10, 10, msgp, OLED_COLOR_WHITE, OLED_COLOR_BLACK);
+	ssd1306_draw_string(&dev, comm->buffer, font, 3, 35, "PRESS <DOWN> TO PLAY", OLED_COLOR_WHITE, OLED_COLOR_BLACK);
+	ssd1306_draw_string(&dev, comm->buffer, font, 3, 45, "AGAIN.", OLED_COLOR_WHITE, OLED_COLOR_BLACK);
+	ssd1306_load_frame_buffer(&dev, comm->buffer);
+	vlcdc_screen_frame(vlcdc, comm);
 
 	for(;;){
 
 		// pressed down button
-		if(gpio_get_level(GPIO_DOWN)){
+		if(gpio_get_level(GPIO_DOWN) || (vlcdc_get_key(*vlcdc).key == 81)){
 			memset(blocks, 0, MAX_BLOCK);
 
 			// update snake's body
@@ -73,13 +74,13 @@ void game_over_fn(ssd1306_t dev, const font_info_t *font, uint8_t *fb, struct BL
 
 			// count down
 			for(int i = 3; i > 0; --i){
-				memset(fb, 0, BUFFER_SIZE);
+				memset(comm->buffer, 0, BUFFER_SIZE);
 
 				char msg[100];
 				sprintf(msg, "%d", i);
 
 				// show text in the middle of the display
-				ssd1306_draw_string(&dev, fb, font,
+				ssd1306_draw_string(&dev, comm->buffer, font,
 					(DISPLAY_WIDTH / 2) - ((int)strlen(msg) * 5),
 					DISPLAY_HEIGHT / 2,
 					msg,
@@ -87,7 +88,8 @@ void game_over_fn(ssd1306_t dev, const font_info_t *font, uint8_t *fb, struct BL
 					OLED_COLOR_BLACK);
 
 				// update buffer
-				ssd1306_load_frame_buffer(&dev, fb);
+				ssd1306_load_frame_buffer(&dev, comm->buffer);
+				vlcdc_screen_frame(vlcdc, comm);
 				dlay(1000);  // wait for 1 second
 			}
 
