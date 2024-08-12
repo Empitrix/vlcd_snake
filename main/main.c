@@ -43,7 +43,7 @@ void app_main(void){
 	struct VLCDC vlcdc = vlcdc_init((char *)MY_WIFI_SSID, (char *)MY_WIFI_PASSWORD, 4210);
 
 	struct VC_INIT_COMM init_comm;
-	init_comm.color = (struct VC_COLOR){'\x50', '\x50', '\x50'};
+	init_comm.color = (struct VC_COLOR){'\x70', '\xE0', '\xF7'};
 	init_comm.width = DISPLAY_WIDTH;
 	init_comm.height = DISPLAY_HEIGHT;
 	init_comm.mode = 0;  // mono color
