@@ -2,7 +2,11 @@
 Snake game written in ESP8266 with OLED display and communicate with [VLCD](https://github.com/empitrix/vlcd) via [VLCD client](https://github.com/empitrix/vlcd_client).
 
 
-## Game Behavior
+## Preview
+![snake](./assets/snake.gif)
+
+
+## Game Logic
 The snake will move faster as it gains more points
 
 
